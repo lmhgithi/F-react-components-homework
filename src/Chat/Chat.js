@@ -33,8 +33,16 @@ class Chat extends Component {
       role: 'CUSTOMER',
     };
 
-    let messages = this.state.messages.concat(furtherMessage);
+    setTimeout(() => {
+      this.setState((preState) => ({
+        messages: preState.messages.concat(furtherMessage),
+      }));
+      this.getAnswerOfRobot(userMessage);
+    }, 1000);
+  };
 
+  getAnswerOfRobot = (userMessage) => {
+    let {messages} = this.state;
     answersData.forEach((answer) => {
       answer.tags.forEach((tag) => {
         if (userMessage.includes(tag)) {
@@ -42,10 +50,8 @@ class Chat extends Component {
         }
       });
     });
-
     setTimeout(() => {
       this.setState({
-        shop: shopData,
         messages,
       });
     }, 1000);
