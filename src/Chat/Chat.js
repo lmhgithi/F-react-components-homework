@@ -28,6 +28,10 @@ class Chat extends Component {
   }
 
   sendMessage = (userMessage) => {
+    this.concatMessage(userMessage);
+  };
+
+  concatMessage = (userMessage) => {
     const furtherMessage = {
       text: userMessage,
       role: 'CUSTOMER',
@@ -42,11 +46,14 @@ class Chat extends Component {
   };
 
   getAnswerOfRobot = (userMessage) => {
-    let {messages} = this.state;
+    let { messages } = this.state;
+    let hasAnswer = false;
     answersData.forEach((answer) => {
+      if (hasAnswer) return;
       answer.tags.forEach((tag) => {
-        if (userMessage.includes(tag)) {
+        if (userMessage.includes(tag) && !hasAnswer) {
           messages = messages.concat(answer);
+          hasAnswer = true;
         }
       });
     });
